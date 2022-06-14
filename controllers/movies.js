@@ -57,7 +57,7 @@ const createMovie = (req, res, next) => {
 
 const deleteMovie = (req, res, next) => {
   const id = req.user._id;
-  Movie.findById(req.params.movieId)
+  Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
         throw new NotFoundError('Карточка с указанным _id не найдена');
@@ -65,7 +65,7 @@ const deleteMovie = (req, res, next) => {
       if (movie.owner.toString() !== id) {
         throw new ForbiddenError('Недостаточно прав для удаления карточки');
       } else {
-        Movie.findByIdAndRemove(req.params.movieId)
+        Movie.findByIdAndRemove(req.params._id)
           .then((movieDelete) => {
             res.status(200).send({ data: movieDelete });
           })
