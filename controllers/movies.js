@@ -4,6 +4,8 @@ const NotFoundError = require('../errors/not-found-err');
 const NotReqError = require('../errors/not-req-err');
 const ForbiddenError = require('../errors/forbidden-err');
 
+const { FORBIDDEN_ERROR, NOT_FOUND_ERROR_MOVIE, NOT_REQ_ERROR } = require('../utils/constants');
+
 const getMovies = (req, res, next) => {
   const id = req.user._id;
   Movie.find({ id })
@@ -21,7 +23,7 @@ const createMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new NotReqError(`Переданы некорректные данные при создании карточки: ${err}`));
+        next(new NotReqError(`${NOT_REQ_ERROR}: ${err}`));
       } else {
         next(err);
       }
@@ -33,10 +35,10 @@ const deleteMovie = (req, res, next) => {
   Movie.findById(req.params._id)
     .then((movie) => {
       if (!movie) {
-        throw new NotFoundError('Карточка с указанным _id не найдена');
+        throw new NotFoundError(NOT_FOUND_ERROR_MOVIE);
       }
       if (movie.owner.toString() !== id) {
-        throw new ForbiddenError('Недостаточно прав для удаления карточки');
+        throw new ForbiddenError(FORBIDDEN_ERROR);
       } else {
         Movie.findByIdAndRemove(req.params._id)
           .then((movieDelete) => {
