@@ -32,7 +32,6 @@ const movieSchema = new mongoose.Schema({
       message: 'Неправильный формат URL',
     },
   },
-  // trailer: {
   trailerLink: {
     type: String,
     required: true,

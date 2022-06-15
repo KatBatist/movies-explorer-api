@@ -12,6 +12,10 @@ const cors = require('cors');
 
 const { errors } = require('celebrate');
 
+const { MONGO_DB, ALLOWED_CORS } = require('./utils/config');
+
+const rateLimit = require('./middlewares/rateLimit');
+
 const { validateCreateUser, validateLogin } = require('./middlewares/validate');
 const err = require('./middlewares/err');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -29,15 +33,17 @@ const { PORT = 3000 } = process.env;
 const app = express();
 
 app.use(cors({
-  origin: 'https://movies-explorer.batist.nomoredomains.xyz',
-  credentials: true,
+  origin: ALLOWED_CORS, // 'https://movies-explorer.batist.nomoredomains.xyz',
+  // credentials: true,
 }));
 
-mongoose.connect('mongodb://localhost:27017/movies-explorer-db');
+mongoose.connect(MONGO_DB); // 'mongodb://localhost:27017/movies-explorer-db');
 
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(rateLimit);
 
 app.use(cookieParser());
 
