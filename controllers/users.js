@@ -53,11 +53,11 @@ const updateUser = (req, res, next) => {
       res.status(200).send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new NotReqError(`${NOT_REQ_ERROR}: ${err}`));
-      } else {
-        next(err);
-      }
+      // if (err.name === 'ValidationError') {
+      //  next(new NotReqError(`${NOT_REQ_ERROR}: ${err}`));
+      // } else {
+      next(err);
+      // }
     });
 };
 

@@ -1,4 +1,4 @@
-const cardsRouter = require('express').Router();
+const moviesRouter = require('express').Router();
 const { validateCreateMovie, validateMovieId } = require('../middlewares/validate');
 
 const {
@@ -7,8 +7,8 @@ const {
   deleteMovie,
 } = require('../controllers/movies');
 
-cardsRouter.get('/movies', getMovies);
-cardsRouter.post('/movies', validateCreateMovie, createMovie);
-cardsRouter.delete('/movies/:_id', validateMovieId, deleteMovie);
+moviesRouter.get('/movies', getMovies);
+moviesRouter.post('/movies', validateCreateMovie, createMovie);
+moviesRouter.delete('/movies/:_id', validateMovieId, deleteMovie);
 
-module.exports = cardsRouter;
+module.exports = moviesRouter;
