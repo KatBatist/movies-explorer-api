@@ -53,14 +53,15 @@ const updateUser = (req, res, next) => {
       res.status(200).send({ data: user });
     })
     .catch((err) => {
-      // if (err.name === 'ValidationError') {
-      //  next(new NotReqError(`${NOT_REQ_ERROR}: ${err}`));
-      // } else {
-      throw new Error(err);
-      // next(err);
-      // }
-    })
-    .catch(next);
+      if (err.code === 11000) {
+        next(new UniqueError(UNIQUE_ERROR));
+      }
+      if (err.name === 'ValidationError') {
+        next(new NotReqError(`${NOT_REQ_ERROR}: ${err}`));
+      } else {
+        next(err);
+      }
+    });
 };
 
 const login = (req, res, next) => {
