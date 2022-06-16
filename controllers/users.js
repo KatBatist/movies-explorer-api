@@ -56,9 +56,11 @@ const updateUser = (req, res, next) => {
       // if (err.name === 'ValidationError') {
       //  next(new NotReqError(`${NOT_REQ_ERROR}: ${err}`));
       // } else {
-      next(err);
+      throw new Error(err);
+      // next(err);
       // }
-    });
+    })
+    .catch(next);
 };
 
 const login = (req, res, next) => {
